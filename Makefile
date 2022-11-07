@@ -8,6 +8,7 @@ build-all:
 	$(MAKE) -C erc721 build
 	$(MAKE) -C compound-v2 build
 	$(MAKE) -C network build
+	$(MAKE) -C eth-balance build
 
 .PHONY: run-all
 run-all:
