@@ -1,0 +1,1 @@
+pub const REGISTRY_ADDRESS: &str = "0x094d12e5b541784701fd8d65f11fc0598fbc6332";

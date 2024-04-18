@@ -1,0 +1,51 @@
+specVersion: v0.1.0
+package:
+  name: curve_finance_substream
+  version: v0.1.0
+
+imports:
+  sql: https://github.com/streamingfast/substreams-sink-sql/releases/download/protodefs-v1.0.7/substreams-sink-sql-protodefs-v1.0.7.spkg
+  graph: https://github.com/streamingfast/substreams-sink-subgraph/releases/download/v0.1.0/substreams-sink-subgraph-protodefs-v0.1.0.spkg
+  database_change: https://github.com/streamingfast/substreams-sink-database-changes/releases/download/v1.2.1/substreams-database-change-v1.2.1.spkg
+  entity: https://github.com/streamingfast/substreams-entity-change/releases/download/v1.1.0/substreams-entity-change-v1.1.0.spkg
+
+protobuf:
+  files:
+    - common.proto
+    - erc20.proto
+    - contract.proto
+  importPaths:
+    - ./proto
+    - ../common/proto
+
+binaries:
+  default:
+    type: wasm/rust-v1
+    file: "../target/wasm32-unknown-unknown/release/curve_finance_substream.wasm"
+
+modules:
+  - name: map_pool_created
+    kind: map
+    initialBlock: 13991825
+    inputs:
+      - source: sf.ethereum.type.v2.Block
+    output:
+      type: proto:messari.contract.v1.Pools
+
+  - name: store_pools
+    kind: store
+    updatePolicy: set_if_not_exists
+    valueType: string
+    inputs:
+      - map: map_pool_created
+  
+  - name: map_pool_fees
+    kind: map
+    initialBlock: 13991825
+    inputs:
+      - source: sf.ethereum.type.v2.Block
+      - store: store_pools
+    output:
+      type: proto:messari.contract.v1.PoolFees
+
+network: polygon
