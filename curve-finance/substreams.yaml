@@ -26,7 +26,7 @@ binaries:
 modules:
   - name: map_pool_created
     kind: map
-    initialBlock: 13991825
+    initialBlock: 13479484
     inputs:
       - source: sf.ethereum.type.v2.Block
     output:
@@ -39,12 +39,22 @@ modules:
     inputs:
       - map: map_pool_created
   
-  - name: map_pool_fees
-    kind: map
-    initialBlock: 13991825
+  - name: store_pool_admin_balances
+    kind: store
+    updatePolicy: set
+    valueType: bigint
     inputs:
       - source: sf.ethereum.type.v2.Block
       - store: store_pools
+  
+  - name: map_pool_fees
+    kind: map
+    initialBlock: 13479484
+    inputs:
+      - source: sf.ethereum.type.v2.Block
+      - store: store_pool_admin_balances
+      - store: store_pool_admin_balances
+        mode: deltas
     output:
       type: proto:messari.contract.v1.PoolFees
 

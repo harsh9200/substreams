@@ -27,6 +27,7 @@ message PoolFee {
 
 	optional uint64 fee = 2;
 	optional uint64 admin_fee = 3;
+	repeated string admin_balances = 4;
 
 	int64 log_index = 5;
 	int64 block_number = 6;

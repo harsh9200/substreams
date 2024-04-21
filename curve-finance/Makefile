@@ -10,11 +10,11 @@ build:
 
 .PHONY: run
 run:
-	substreams run -e polygon.streamingfast.io:443 substreams.yaml map_pool_fees --debug-modules-initial-snapshot store_pools -s 13991900 -t +10
+	substreams run -e polygon.streamingfast.io:443 substreams.yaml map_pool_fees --debug-modules-initial-snapshot store_pool_admin_balances -s 13521257
 
 .PHONY: build_csv
 build_csv:
-	substreams-sink-csv -e polygon.substreams.pinax.network:9000 --manifest ./curve-finance-substream-v0.1.0.spkg --module-name map_pool_fees --start-block 13991900
+	substreams-sink-csv -e polygon.substreams.pinax.network --manifest ./curve-finance-substream-v0.1.0.spkg --module-name map_pool_fees --start-block 13479484
 
 .PHONY: pack
 pack:
