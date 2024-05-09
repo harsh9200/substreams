@@ -1,5 +1,13 @@
 [
   {
+    "stateMutability": "view",
+    "type": "function",
+    "name": "minter",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address" }],
+    "gas": 3000
+  },
+  {
     "name": "TokenExchange",
     "inputs": [
       { "name": "buyer", "type": "address", "indexed": true },

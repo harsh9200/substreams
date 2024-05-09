@@ -3,6 +3,21 @@ syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 package messari.contract.v1;
 
+message Factories {
+	repeated Factory factories = 1;
+}
+
+message Factory {
+	string address = 1;
+
+	int64 log_index = 2;
+	int64 block_number = 3;
+	
+	google.protobuf.Timestamp block_timestmap = 4;
+	int64 transaction_index = 5;
+	string transaction_hash = 6;
+}
+
 message Pools {
 	repeated Pool pools = 1;
 }

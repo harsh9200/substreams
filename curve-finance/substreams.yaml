@@ -24,11 +24,27 @@ binaries:
     file: "../target/wasm32-unknown-unknown/release/curve_finance_substream.wasm"
 
 modules:
-  - name: map_pool_created
+  - name: map_factory_added
     kind: map
-    initialBlock: 13479484
+    initialBlock: 11153725
     inputs:
       - source: sf.ethereum.type.v2.Block
+    output:
+      type: proto:messari.contract.v1.Factories
+
+  - name: store_factories
+    kind: store
+    updatePolicy: set_if_not_exists
+    valueType: string
+    inputs:
+      - map: map_factory_added
+
+  - name: map_pool_created
+    kind: map
+    initialBlock: 11153725
+    inputs:
+      - source: sf.ethereum.type.v2.Block
+      - store: store_factories
     output:
       type: proto:messari.contract.v1.Pools
 
@@ -47,15 +63,21 @@ modules:
       - source: sf.ethereum.type.v2.Block
       - store: store_pools
   
-  - name: map_pool_fees
+  - name: map_fees_entity
     kind: map
-    initialBlock: 13479484
+    initialBlock: 11153725
     inputs:
       - source: sf.ethereum.type.v2.Block
       - store: store_pool_admin_balances
       - store: store_pool_admin_balances
         mode: deltas
     output:
-      type: proto:messari.contract.v1.PoolFees
+      type: proto:substreams.entity.v1.EntityChanges
 
-network: polygon
+  - name: graph_out
+    kind: map
+    initialBlock: 11153725
+    inputs:
+      - map: map_fees_entity
+    output:
+      type: proto:substreams.entity.v1.EntityChanges
